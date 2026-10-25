@@ -20,6 +20,9 @@ class RubroNegra {
 private:
     NoRN* raiz;
     NoRN* NIL;
+    int totalRotacoes;
+
+    int altura(NoRN* no);
 
     bool validar(NoRN* no, long long minimo,
     long long maximo, int& alturaPreta);
@@ -41,6 +44,8 @@ private:
 public:
     RubroNegra();
     ~RubroNegra();
+    int obterAltura();
+    int obterTotalRotacoes();
 
     bool inserir(int valor);
     bool buscar(int valor);

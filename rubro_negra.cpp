@@ -6,6 +6,7 @@ using namespace std;
 
 RubroNegra::RubroNegra() {
     NIL = new NoRN;
+    totalRotacoes = 0;
 
     NIL->valor = 0;
     NIL->cor = PRETO;
@@ -32,8 +33,9 @@ void RubroNegra::destruir(NoRN* no) {
 }
 
 void RubroNegra::rotacaoEsquerda(NoRN* no) {
+    totalRotacoes++;
     NoRN* filho = no->direita;
-
+    
     no->direita = filho->esquerda;
 
     if (filho->esquerda != NIL) {
@@ -55,6 +57,7 @@ void RubroNegra::rotacaoEsquerda(NoRN* no) {
 }
 
 void RubroNegra::rotacaoDireita(NoRN* no) {
+    totalRotacoes++;
     NoRN* filho = no->esquerda;
 
     no->esquerda = filho->direita;
@@ -461,4 +464,25 @@ bool RubroNegra::validar() {
 
     return validar(raiz, -9223372036854775807LL - 1,
                    9223372036854775807LL, alturaPreta);
+}
+
+
+
+int RubroNegra::altura(NoRN* no) {
+    if (no == NIL) {
+        return 0;
+    }
+
+    int esquerda = altura(no->esquerda);
+    int direita = altura(no->direita);
+
+    return 1 + (esquerda > direita ? esquerda : direita);
+}
+
+int RubroNegra::obterAltura() {
+    return altura(raiz);
+}
+
+int RubroNegra::obterTotalRotacoes() {
+    return totalRotacoes;
 }

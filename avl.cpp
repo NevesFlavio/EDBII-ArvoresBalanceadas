@@ -6,6 +6,7 @@ using namespace std;
 
 AVL::AVL() {
     raiz = nullptr;
+    totalRotacoes = 0;
 }
 
 AVL::~AVL() {
@@ -126,6 +127,7 @@ int AVL::fatorBalanceamento(NoAVL* no) {
 NoAVL* AVL::rotacaoDireita(NoAVL* y) {
     NoAVL* x = y->esquerda;
     NoAVL* auxiliar = x->direita;
+    totalRotacoes++;
 
     x->direita = y;
     y->esquerda = auxiliar;
@@ -154,6 +156,7 @@ NoAVL* AVL::rotacaoDireita(NoAVL* y) {
 NoAVL* AVL::rotacaoEsquerda(NoAVL* x) {
     NoAVL* y = x->direita;
     NoAVL* auxiliar = y->esquerda;
+    totalRotacoes++;
 
     y->esquerda = x;
     x->direita = auxiliar;
@@ -369,4 +372,12 @@ bool AVL::validar() {
         raiz, -9223372036854775807LL - 1,
         9223372036854775807LL, alturaCalculada
     );
+}
+
+int AVL::obterAltura() {
+    return altura(raiz);
+}
+
+int AVL::obterTotalRotacoes() {
+    return totalRotacoes;
 }

@@ -12,6 +12,7 @@ struct NoAVL {
 class AVL {
 private:
     NoAVL* raiz;
+    int totalRotacoes;
 
     bool validar(NoAVL* no, long long minimo,
     long long maximo, int& alturaCalculada);
@@ -35,6 +36,8 @@ public:
     AVL();
     ~AVL();
     
+    int obterTotalRotacoes();
+    int obterAltura();
     bool validar();
     bool remover(int valor);
     bool inserir(int valor);
