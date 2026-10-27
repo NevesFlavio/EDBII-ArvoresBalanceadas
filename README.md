@@ -71,6 +71,14 @@ A implementação segue o modelo tradicional de árvore Rubro-Negra, sem exigir 
 - `rubro_negra.cpp`: implementação das operações da árvore Rubro-Negra.
 - `testes.cpp`: testes automatizados das duas estruturas.
 - `README.md`: documentação do projeto.
+- `comparacao.cpp`: Primeiro tesde de comparações.
+- `comparacao_desempenho.cpp`: Comparação final de médias de tempos das operações.
+- `comparacao_mista.cpp`: Comparação levando em conta operações mistas.
+- `comparacao.exe`: Compilado do comparacao.cpp
+- `comparacao_desempenho.exe`: Compilado do comparacao_desempenho.cpp
+- `comparacao_mista.exe`: Compilado do comparacao_mista.cpp
+- `arvores.exe`: Compilado do main.cpp
+- `testes.exe`: Compilado do testes.cpp
 
 ## 6. Compilação
 
