@@ -13,6 +13,8 @@
 using namespace std;
 using namespace chrono;
 
+const int REPETICOES = 5;
+
 struct Resultado {
     double insercao;
     double pesquisa;
@@ -39,17 +41,18 @@ Resultado testarArvore(Arvore& arvore,
         return {-1, -1, -1, -1, -1};
     }
 
-    // Pesquisa: metade dos valores existe e metade nao existe.
     size_t acertos = 0;
 
     inicio = steady_clock::now();
 
+    // Pesquisa de todos os elementos existentes.
     for (int valor : valores) {
         if (arvore.buscar(valor)) {
             acertos++;
         }
     }
 
+    // Pesquisa de elementos inexistentes.
     for (int i = 1; i <= static_cast<int>(valores.size()); i++) {
         if (arvore.buscar(static_cast<int>(valores.size()) + i)) {
             acertos++;
@@ -66,9 +69,8 @@ Resultado testarArvore(Arvore& arvore,
     }
 
     int altura = arvore.obterAltura();
-    
 
-    // Remocao na mesma ordem usada na insercao.
+    // Remocao dos mesmos elementos, na mesma ordem.
     inicio = steady_clock::now();
 
     for (int valor : valores) {
@@ -95,6 +97,48 @@ Resultado testarArvore(Arvore& arvore,
     };
 }
 
+Resultado executarRepeticoes(const vector<int>& valores,
+                             bool usarAVL) {
+    double somaInsercao = 0;
+    double somaPesquisa = 0;
+    double somaRemocao = 0;
+
+    int altura = 0;
+    int rotacoes = 0;
+
+    for (int i = 0; i < REPETICOES; i++) {
+        Resultado r;
+
+        if (usarAVL) {
+            AVL arvore;
+            r = testarArvore(arvore, valores);
+        } else {
+            RubroNegra arvore;
+            r = testarArvore(arvore, valores);
+        }
+
+        if (r.insercao < 0 || r.pesquisa < 0 || r.remocao < 0) {
+            return {-1, -1, -1, -1, -1};
+        }
+
+        somaInsercao += r.insercao;
+        somaPesquisa += r.pesquisa;
+        somaRemocao += r.remocao;
+
+        // Guardamos a altura e as rotacoes da ultima repeticao.
+        altura = r.altura;
+        rotacoes = r.rotacoes;
+    }
+
+    return {
+        somaInsercao / REPETICOES,
+        somaPesquisa / REPETICOES,
+        somaRemocao / REPETICOES,
+        altura,
+        rotacoes
+    };
+}
+
 void imprimirResultado(const string& nome,
                        const Resultado& r) {
     cout << left << setw(13) << nome
@@ -109,11 +153,9 @@ void imprimirResultado(const string& nome,
 
 void executarCenario(const string& nome,
                      const vector<int>& valores) {
-    AVL arvoreAVL;
-    RubroNegra arvoreRN;
-
     cout << "\nCenario: " << nome << "\n";
-    cout << "Elementos: " << valores.size() << "\n\n";
+    cout << "Elementos: " << valores.size() << "\n";
+    cout << "Repeticoes: " << REPETICOES << "\n\n";
 
     cout << left << setw(13) << "Arvore"
          << right << setw(12) << "Insercao"
@@ -126,16 +168,18 @@ void executarCenario(const string& nome,
     cout << string(71, '-') << "\n";
 
     Resultado resultadoAVL =
-        testarArvore(arvoreAVL, valores);
+        executarRepeticoes(valores, true);
 
     Resultado resultadoRN =
-        testarArvore(arvoreRN, valores);
+        executarRepeticoes(valores, false);
 
     imprimirResultado("AVL", resultadoAVL);
     imprimirResultado("Rubro-Negra", resultadoRN);
 
-    cout << "\nTempos em milissegundos (ms).\n";
-    cout << "As rotacoes contabilizadas incluem insercoes e remocoes.\n";
+    cout << "\nTempos em milissegundos (ms).";
+    cout << "\nOs tempos sao medias das repeticoes.";
+    cout << "\nAltura e rotacoes correspondem a ultima repeticao.";
+    cout << "\nAs rotacoes incluem insercoes e remocoes.\n";
 }
 
 int main() {
@@ -166,4 +210,3 @@ int main() {
 
     return 0;
 }
-

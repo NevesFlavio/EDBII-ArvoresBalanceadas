@@ -172,3 +172,17 @@ Para um sistema de logística, como o cenário proposto, a escolha deve consider
 Os testes demonstraram que ambas as implementações mantiveram suas propriedades de balanceamento nos cenários avaliados. A AVL apresentou menor altura nas sequências ordenadas, enquanto a Rubro-Negra realizou uma rotação a menos durante as inserções desses cenários. Na sequência variada, as métricas observadas foram iguais.
 
 Portanto, os resultados reforçam que a escolha entre AVL e Rubro-Negra deve considerar o padrão de utilização do sistema. A teoria ajuda a explicar as diferenças observadas, mas experimentos maiores são necessários para fundamentar uma recomendação específica para o sistema de logística.
+
+### Análise dos testes repetidos
+
+Cada cenário foi executado cinco vezes, e os tempos apresentados correspondem à média das execuções. Foram avaliadas sequências crescentes, decrescentes e embaralhadas, com 1.000, 10.000 e 50.000 elementos. As duas estruturas receberam os mesmos dados e executaram as mesmas operações.
+
+Nos testes com 50.000 elementos, a árvore Rubro-Negra apresentou menores tempos de inserção e remoção nos três cenários avaliados. Na sequência embaralhada, por exemplo, o tempo médio de inserção foi de 10,820 ms na Rubro-Negra e 24,855 ms na AVL. Para a remoção, os tempos foram 9,878 ms e 22,623 ms, respectivamente.
+
+Nas pesquisas, os resultados foram mais próximos. No cenário embaralhado, a AVL levou 8,078 ms, enquanto a Rubro-Negra levou 8,572 ms. Nos cenários crescente e decrescente, a AVL também apresentou menor tempo de pesquisa nos testes com 50.000 elementos.
+
+A altura das árvores também apresentou diferenças. Nos cenários crescente e decrescente, a AVL alcançou altura 16, enquanto a Rubro-Negra alcançou altura 29. No cenário embaralhado, ambas tiveram altura 19. Esses resultados são compatíveis com as estratégias de balanceamento: a AVL mantém uma diferença restrita entre as alturas das subárvores, enquanto a Rubro-Negra utiliza propriedades de cores para controlar a altura sem exigir um balanceamento tão rigoroso.
+
+Os resultados sugerem que a implementação Rubro-Negra utilizada neste trabalho apresentou vantagem nos tempos de inserção e remoção, enquanto a AVL apresentou vantagem nas pesquisas dos testes com 50.000 elementos. Entretanto, essas conclusões são limitadas aos dados, à implementação e ao ambiente utilizados. Cinco repetições ajudam a reduzir o efeito de variações pontuais, mas não eliminam todas as fontes de variação. Portanto, não é possível afirmar que uma estrutura será sempre superior à outra.
+
+Para uma aplicação com muitas inserções e remoções, os resultados obtidos favorecem a implementação Rubro-Negra testada. Para aplicações que priorizam pesquisas, a AVL também merece consideração, pois apresentou árvores mais baixas nos cenários ordenados e tempos de pesquisa competitivos. A escolha final deve considerar o padrão de operações da aplicação e os resultados obtidos em testes adicionais.
